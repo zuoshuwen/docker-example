@@ -1,0 +1,37 @@
+version: '3'
+
+networks:
+  backend:
+    driver: ${NETWORKS_DRIVER}
+
+services:
+
+### MySQL Master ################################################
+    mysql_master:
+      build:
+        context: ./mysql_master
+        args:
+          - MYSQL_VERSION=${MYSQL_MASTER_VERSION}
+      environment:
+        - MYSQL_DATABASE=${MYSQL_MASTER_DATABASE}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_MASTER_ROOT_PASSWORD}
+        - TZ=${WORKSPACE_TIMEZONE}
+      ports:
+        - "${MYSQL_MASTER_PORT}:3306"
+      networks:
+        - backend
+
+### MySQL Slave ################################################
+    mysql_slave:
+      build:
+        context: ./mysql_slave
+        args:
+          - MYSQL_VERSION=${MYSQL_SLAVE_VERSION}
+      environment:
+        - MYSQL_DATABASE=${MYSQL_SLAVE_DATABASE}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_SLAVE_ROOT_PASSWORD}
+        - TZ=${WORKSPACE_TIMEZONE}
+      ports:
+        - "${MYSQL_SLAVE_PORT}:3306"
+      networks:
+        - backend
