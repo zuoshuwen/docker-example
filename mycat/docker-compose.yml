@@ -1,0 +1,68 @@
+version: '3'
+
+networks:
+  backend:
+    driver: ${NETWORKS_DRIVER}
+
+services:
+
+### mycat ################################################
+    mycat:
+      build:
+        context: ./openjdk
+      tty: true
+      volumes:
+        - ./mycat:/usr/local/mycat
+      networks:
+        - backend
+
+### MySQL First ################################################
+    mysql_first:
+      build:
+        context: ./mysql_first
+        args:
+          - MYSQL_VERSION=${MYSQL_FIRST_VERSION}
+      environment:
+        - MYSQL_DATABASE=${MYSQL_FIRST_DATABASE}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_FIRST_ROOT_PASSWORD}
+        - TZ=${WORKSPACE_TIMEZONE}
+      volumes:
+        - ${MYSQL_FIRST_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+      ports:
+        - "${MYSQL_FIRST_PORT}:3306"
+      networks:
+        - backend
+
+### MySQL Second ################################################
+    mysql_second:
+      build:
+        context: ./mysql_second
+        args:
+          - MYSQL_VERSION=${MYSQL_SECOND_VERSION}
+      environment:
+        - MYSQL_DATABASE=${MYSQL_SECOND_DATABASE}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_SECOND_ROOT_PASSWORD}
+        - TZ=${WORKSPACE_TIMEZONE}
+      volumes:
+        - ${MYSQL_SECOND_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+      ports:
+        - "${MYSQL_SECOND_PORT}:3306"
+      networks:
+        - backend
+
+# ### MySQL Third ################################################
+    mysql_third:
+      build:
+        context: ./mysql_third
+        args:
+          - MYSQL_VERSION=${MYSQL_THIRD_VERSION}
+      environment:
+        - MYSQL_DATABASE=${MYSQL_THIRD_DATABASE}
+        - MYSQL_ROOT_PASSWORD=${MYSQL_THIRD_ROOT_PASSWORD}
+        - TZ=${WORKSPACE_TIMEZONE}
+      volumes:
+        - ${MYSQL_THIRD_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+      ports:
+        - "${MYSQL_THIRD_PORT}:3306"
+      networks:
+        - backend
