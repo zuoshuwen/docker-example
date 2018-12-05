@@ -1,6 +1,6 @@
 ### 分布式MySQL示例
 
-1. 启动镜像 
+1. 启动镜像
 ```
 dcoker-compose up -d
 ```

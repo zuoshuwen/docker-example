@@ -1,6 +1,6 @@
 ### 主从配置
 
-1. 启动镜像 
+1. 启动镜像
 ```
 dcoker-compose up -d
 ```
@@ -16,7 +16,7 @@ show master status;
 ```
 记下 File、Position的值填入步骤4
 
-4. 在slave上执行 
+4. 在slave上执行 
 ```
 CHANGE MASTER TO master_host = 'mysql_master',
 master_port = 3306,
