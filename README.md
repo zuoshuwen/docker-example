@@ -5,5 +5,5 @@ docker搭建环境示例
 - [基于MyCat实现的分布式MySQL](https://github.com/zuoshuwen/docker-example/tree/master/mycat)
 - [基于TwemProxy实现的分布式缓存](https://github.com/zuoshuwen/docker-example/tree/master/twemproxy)
 
-# 借鉴
+# docker环境推荐
 https://laradock.io
